@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Morse Trainer</title>
+<link rel="icon" type="image/svg+xml" href="./web_logo.svg">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo">
+      <div class="logo-signal"><span></span><span></span><span></span><span></span></div>
+      <div class="logo-text">MORSE <span>TRAINER v2.3</span></div>
+    </div>
+    <div class="speed-control">
+      <label>Speed</label>
+      <input type="range" min="1" max="10" value="5" id="speedRange" oninput="updateSpeed(this.value)">
+      <span class="speed-val" id="speedVal">5</span>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <button class="tab active" onclick="setMode('letters')">Letters</button>
+    <button class="tab" onclick="setMode('words')">Words</button>
+    <button class="tab" onclick="setMode('sentences')">Sentences</button>
+  </div>
+
+  <div class="main-panel">
+
+    <div class="challenge-card">
+      <div class="challenge-meta">
+        <div class="challenge-label">
+          <span class="signal-dot"></span>
+          <span id="challengeLabel">Decode this signal</span>
+        </div>
+        <div id="dirBadge" class="dir-badge to-letter">· — TYPE THE LETTER</div>
+      </div>
+      <div class="target-display" id="targetDisplay"></div>
+      <div class="morse-visual" id="morseVisual"></div>
+      <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    </div>
+
+    <div class="input-card">
+      <div id="letterInputWrap">
+        <div class="input-row">
+          <input class="morse-input letter-input" id="letterInput" maxlength="2"
+            onkeydown="onLetterKeyDown(event)" autocomplete="off" spellcheck="false">
+          <button class="btn-submit" onclick="checkAnswer()">CHECK ↵</button>
+        </div>
+        <div class="key-hints">
+          <span class="key-hint">Type the <strong>letter</strong></span>
+          <span class="key-hint"><strong>Enter</strong> check</span>
+          <span class="key-hint" style="cursor:pointer" onclick="playCurrentMorse()">🔊 replay</span>
+        </div>
+      </div>
+
+      <div id="morseInputWrap" style="display:none">
+        <div class="input-row">
+          <input class="morse-input" id="morseInput" maxlength="24"
+            oninput="onMorseInput()" onkeydown="onMorseKeyDown(event)" autocomplete="off" spellcheck="false">
+          <button class="btn-submit" onclick="checkAnswer()">CHECK ↵</button>
+        </div>
+        <div class="morse-btns">
+          <button class="btn-dot" onclick="insertSymbol('.')">· &nbsp; DOT <small style="font-size:13px;opacity:.5">[S]</small></button>
+          <button class="btn-dash" onclick="insertSymbol('-')">— &nbsp; DASH <small style="font-size:13px;opacity:.5">[L]</small></button>
+        </div>
+        <div class="clear-row">
+          <button class="btn-clear" onclick="clearMorseInput()">✕ &nbsp; Clear input</button>
+        </div>
+        <div class="key-hints">
+          <span class="key-hint"><strong>S</strong> dot</span>
+          <span class="key-hint"><strong>L</strong> dash</span>
+          <span class="key-hint"><strong>Enter</strong> check</span>
+          <span class="key-hint"><strong>Bksp</strong> delete</span>
+          <span class="key-hint" style="cursor:pointer" onclick="playCurrentMorse()">🔊 play</span>
+        </div>
+      </div>
+
+      <div class="live-preview" id="livePreview"></div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-card"><span class="stat-val" id="statScore">0</span><span class="stat-label">Score</span></div>
+      <div class="stat-card"><span class="stat-val" id="statStreak">0</span><span class="stat-label">Streak</span></div>
+      <div class="stat-card"><span class="stat-val" id="statAccuracy">—</span><span class="stat-label">Accuracy</span></div>
+    </div>
+
+    <div>
+      <button class="ref-toggle" id="refToggle" onclick="toggleRef()">
+        Morse Code Reference <span class="arrow">▾</span>
+      </button>
+      <div class="ref-grid" id="refGrid"></div>
+    </div>
+
+  </div>
+</div>
+
+<footer>Built with <span>·—·· ——— ···— · </span> &nbsp;|&nbsp; crafted by <span>Raef</span></footer>
+<div class="feedback-flash" id="feedbackFlash"></div>
+
+<script src="./app.js"></script>
+</body>
+</html>
